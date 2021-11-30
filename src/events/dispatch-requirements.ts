@@ -39,7 +39,7 @@ cache.eventHandlers.dispatchRequirements = async function (data, shardID) {
   }
 
   if (processing.has(id)) {
-    log.info(`[DISPATCH] New Guild ID already being processed: ${id} in ${data.t} event`);
+    log.info(`New Guild ID already being processed: ${id} in ${data.t} event`);
 
     let runs = 0;
     do {
@@ -49,13 +49,13 @@ cache.eventHandlers.dispatchRequirements = async function (data, shardID) {
 
     if (!processing.has(id)) return;
 
-    return log.info(`[DISPATCH] Already processed guild was not successfully fetched:  ${id} in ${data.t} event`);
+    return log.info(`Already processed guild was not successfully fetched:  ${id} in ${data.t} event`);
   }
 
   processing.add(id);
 
   // New guild id has appeared, fetch all relevant data
-  log.info(`[DISPATCH] New Guild ID has appeared: ${id} in ${data.t} event`);
+  log.info(`New Guild ID has appeared: ${id} in ${data.t} event`);
 
   const rawGuild = (await getGuild(id, {
     counts: true,
@@ -64,10 +64,10 @@ cache.eventHandlers.dispatchRequirements = async function (data, shardID) {
 
   if (!rawGuild) {
     processing.delete(id);
-    return log.info(`[DISPATCH] Guild ID ${id} failed to fetch.`);
+    return log.info(`[Guild ID ${id} failed to fetch.`);
   }
 
-  log.info(`[DISPATCH] Guild ID ${id} has been found. ${rawGuild.name}`);
+  log.info(`Guild ID ${id} has been found. ${rawGuild.name}`);
 
   const [channels, botMember] = await Promise.all([
     getChannels(id, false),
@@ -79,7 +79,7 @@ cache.eventHandlers.dispatchRequirements = async function (data, shardID) {
 
   if (!botMember || !channels) {
     processing.delete(id);
-    return log.info(`[DISPATCH] Guild ID ${id} Name: ${rawGuild.name} failed. Unable to get botMember or channels`);
+    return log.info(`Guild ID ${id} Name: ${rawGuild.name} failed. Unable to get botMember or channels`);
   }
 
   const guild = await structures.createDiscordenoGuild(rawGuild, shardID);
@@ -94,7 +94,7 @@ cache.eventHandlers.dispatchRequirements = async function (data, shardID) {
 
   processing.delete(id);
 
-  log.info(`[DISPATCH] Guild ID ${id} Name: ${guild.name} completely loaded.`);
+  log.info(`Guild ID ${id} Name: ${guild.name} completely loaded.`);
 };
 
 // Events that have

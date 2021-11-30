@@ -27,7 +27,7 @@ cache.eventHandlers.ready = async () => {
   log.info(`Loaded ${cache.arguments.size} Argument(s)`);
   log.info(`Loaded ${cache.commands.size} Command(s)`);
   log.info(`Loaded ${Object.keys(cache.eventHandlers).length} Event(s)`);
-  // log.info(`Loaded ${cache.inhibitors.size} Inhibitor(s)`);
+  log.info(`Loaded ${cache.inhibitors.size} Inhibitor(s)`);
   log.info(`Loaded ${cache.monitors.size} Monitor(s)`);
   log.info(`Loaded ${cache.tasks.size} Task(s)`);
 

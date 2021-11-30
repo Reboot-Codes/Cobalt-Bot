@@ -8,9 +8,17 @@ import {
 } from '../../deps.ts';
 import { cache } from '../../cache.ts';
 import { fetchMember } from '../utils/helpers.ts';
+import { logger } from '../utils/logger.ts';
+
+const log = logger({ name: 'Event: Message Create' });
 
 cache.eventHandlers.messageCreate = (message: DiscordenoMessage) => {
   const isDM = message.guildId == BigInt(0);
+
+  message.mentionedMembers.forEach(member => {
+    if (member?.id === botId) log.info(`Bot Mentioned in ${message.guild?.name} (${message.guildId}) by ${message.tag}!`);
+  })
+
   cache.monitors.forEach(async (monitor) => {
     // Check conditions for the monitor
     // Using !== is important because we're defaulting to false
