@@ -1,0 +1,4 @@
+# Automatically generated "fast" import file
+fileloader.ts
+# Private config, does have a type instead of a template file
+config.ts

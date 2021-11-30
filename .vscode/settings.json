@@ -1,0 +1,17 @@
+{
+  "deno.enable": true,
+  "deno.lint": true,
+  "deno.unstable": true,
+  "discord.enabled": true,
+  "cSpell.words": [
+    "Discordeno",
+    "Loglevels",
+    "nestedcommand",
+    "permlevel",
+    "Slowmode",
+    "upsert"
+  ],
+  "deno.suggest.imports.hosts": {
+    "https://deno.land": true
+  }
+}
