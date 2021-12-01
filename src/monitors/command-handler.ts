@@ -4,7 +4,7 @@ import {
   bgBlack,
   bgGreen,
   bgMagenta,
-  bgBrightBlue,
+  bgBrightCyan,
   black,
   botId,
   cache as discordCache,
@@ -41,7 +41,7 @@ export function logCommand(
   type: "Failure" | "Success" | "Trigger" | "Slowmode" | "Missing" | "Inhibit",
   commandName: string
 ) {
-  const command = `[COMMAND: ${bgBrightBlue(black(commandName || "Unknown"))} - ${bgBlack(
+  const command = `[COMMAND: ${bgBrightCyan(black(commandName || "Unknown"))} - ${bgBlack(
     ["Failure", "Slowmode", "Missing"].includes(type) ? red(type) : type === "Success" ? green(type) : white(type)
   )}]`;
 
