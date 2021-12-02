@@ -1,8 +1,7 @@
 import { cache } from "../../cache.ts";
 import { PermissionLevels } from "../utils/types/mod.ts";
-import { createCommand, createSubcommand } from "../utils/helpers.ts";
+import { createCommand, createSubcommand, sendEmbed, getTime } from "../utils/helpers.ts";
 import { parsePrefix } from "../monitors/command-handler.ts";
-import { Embed } from "../utils/Embed.ts";
 // import { db } from "../database/database.ts";
 
 // This command will only execute if there was no valid sub command: !prefix
@@ -18,12 +17,10 @@ createCommand({
   guildOnly: true,
   permissionLevels: [PermissionLevels.MEMBER],
   execute: (message) => {
-    const embed = new Embed()
-      .setTitle("Prefix Information")
-      .setDescription(`**Current Prefix**: \`${parsePrefix(message.guildId)}\``)
-      .setTimestamp();
-
-    message.send({ embeds: [embed] });
+    sendEmbed(message.channelId, {
+      title: 'Prefix Info',
+      description: `**Current Prefix**: \`${parsePrefix(message.guildId)}\``,
+    })
   },
 });
 

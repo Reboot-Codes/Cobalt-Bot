@@ -1,5 +1,5 @@
 import {
-//  avatarURL,
+  avatarURL,
 //  DiscordApplicationCommandOptionTypes,
 //  DiscordInteractionResponseTypes,
 //  sendInteractionResponse,
@@ -80,17 +80,27 @@ createCommand({
   }, */
   execute: (message) => {
     const mentioned = message.mentions?.[0];
-    const member = message.guild?.members.get(mentioned?.id ? snowflakeToBigint(mentioned.id) : message.authorId);
-    if (!member) return;
 
-    sendEmbed(message.channelId, {
-      author: {
-        name: member.tag,
-        iconUrl: member.avatarURL,
-      },
-      image: {
-        url: member.makeAvatarURL({ size: 2048 })
-      }
-    })
+    if (mentioned !== undefined) {
+      sendEmbed(message.channelId, {
+        author: {
+          name: `${mentioned.username}#${mentioned.discriminator}`,
+          iconUrl: avatarURL(BigInt(mentioned.id), Number(mentioned.discriminator), { avatar: mentioned.id, size: 2048, animated: false })
+        },
+        image: {
+          url: avatarURL(BigInt(mentioned.id), Number(mentioned.discriminator), { avatar: mentioned.id, size: 2048, animated: true })
+        }
+      })
+    } else {
+      sendEmbed(message.channelId, {
+        author: {
+          name: message.tag,
+          iconUrl: avatarURL(message.authorId, Number(message.tag.split("#")[1]), { avatar: message.authorId, size: 2048, animated: false }),
+        },
+        image: {
+          url: avatarURL(message.authorId, Number(message.tag.split("#")[1]), { avatar: message.authorId, size: 2048, animated: true })
+        }
+      })
+    }
   }
 });

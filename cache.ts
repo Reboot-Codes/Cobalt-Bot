@@ -34,4 +34,5 @@ export const cache = {
   messageCollectors: new Collection<bigint, MessageCollector>(),
   reactionCollectors: new Collection<bigint, ReactionCollector>(),
   buttonCollectors: new Collection<bigint, ButtonCollector>(),
+  startTime: {} as number,
 }

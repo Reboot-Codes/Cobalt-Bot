@@ -7,6 +7,7 @@ import { cache } from './cache.ts';
 const log = logger({ name: "Main" });
 
 log.info("Starting Up, this might take a while...");
+cache.startTime = Date.now();
 
 await Promise.all(
   [

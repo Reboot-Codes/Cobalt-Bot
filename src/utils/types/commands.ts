@@ -7,7 +7,7 @@ import {
   DiscordenoMessage,
   DiscordenoRole,
   Permission,
-  SlashCommandInteraction,
+  SlashCommandInteraction
 } from "../../../deps.ts";
 
 // deno-lint-ignore no-explicit-any
