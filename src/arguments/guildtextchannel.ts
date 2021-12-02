@@ -5,7 +5,7 @@ const textChannelTypes = [
   ChannelTypes.GuildText,
   ChannelTypes.GuildNews,
   ChannelTypes.GuildNewsThread,
-  ChannelTypes.GuildPivateThread,
+  ChannelTypes.GuildPrivateThread,
   ChannelTypes.GuildPublicThread,
 ];
 cache.arguments.set("guildtextchannel", {

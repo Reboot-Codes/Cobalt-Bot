@@ -23,7 +23,7 @@ createCommand({
       .setDescription(`**Current Prefix**: \`${parsePrefix(message.guildId)}\``)
       .setTimestamp();
 
-    message.send({ embed });
+    message.send({ embeds: [embed] });
   },
 });
 

@@ -84,12 +84,12 @@ export function createSubcommand<T extends readonly ArgumentDefinition[]>(
 
 /** Use this function to send an embed with ease. */
 export function sendEmbed(channelId: bigint, embed: Embed, content?: string) {
-  return sendMessage(channelId, { content, embed });
+  return sendMessage(channelId, { embeds: [embed], content });
 }
 
 /** Use this function to edit an embed with ease. */
 export function editEmbed(message: DiscordenoMessage, embed: Embed, content?: string) {
-  return editMessage(message.channelId, message.id, { content, embed });
+  return editMessage(message.channelId, message.id, { embeds: [embed], content });
 }
 
 // Very important to make sure files are reloaded properly
@@ -135,6 +135,7 @@ export async function fileLoader() {
   paths = [];
 }
 
+/** Gets the shard (ID) that is assigned to the guild (ID) */
 export function calculateShardId(guildId: bigint) {
   if (ws.maxShards === 1) return 0;
 
@@ -234,6 +235,7 @@ export function stringToMilliseconds(text: string) {
   return total;
 }
 
+/** Returns a humanized representation of the current time e.g. `10:30 AM` */
 export function getTime() {
   const now = new Date();
   const hours = now.getHours();
@@ -396,7 +398,7 @@ export async function createEmbedsButtonsPagination(
   ];
 
   const embedMessage = await sendMessage(channelId, {
-    embed: embeds[currentPage - 1],
+    embeds: [embeds[currentPage - 1]],
     components: createComponents(),
   });
 
