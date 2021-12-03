@@ -1,26 +1,28 @@
 import {
-  editBotStatus,
+  cache as discordCache,
   DiscordActivityTypes,
+  editBotStatus,
   upsertSlashCommands,
-  cache as discordCache
-} from '../../deps.ts';
-import { cache } from '../../cache.ts';
-import { logger, Loglevels } from '../utils/logger.ts';
-import { registerTasks } from '../utils/task-helper.ts';
-import { Command } from '../utils/types/mod.ts';
+} from "../../deps.ts";
+import { cache } from "../../cache.ts";
+import { logger, Loglevels } from "../utils/logger.ts";
+import { registerTasks } from "../utils/task-helper.ts";
+import { Command } from "../utils/types/mod.ts";
+import { configs } from "../../config.ts";
 
 const log = logger({ logLevel: Loglevels.Debug, name: "Event: Ready" });
 
 cache.eventHandlers.ready = async () => {
-
   editBotStatus({
     status: "online",
-    activities: [{
-      name: "commands",
-      createdAt: Date.now(),
-      type: DiscordActivityTypes.Listening
-    }]
-  })
+    activities: [
+      {
+        name: `commands | v${configs.version}`,
+        createdAt: Date.now(),
+        type: DiscordActivityTypes.Listening,
+      },
+    ],
+  });
 
   registerTasks();
 
@@ -49,7 +51,9 @@ cache.eventHandlers.ready = async () => {
 
   // Global /commands can take upto 1 hour to update in Discord
   if (globalCommands.length) {
-    log.info(`Updating Global Slash Commands... Any changes will take up to 1 hour to update on discord.`);
+    log.info(
+      `Updating Global Slash Commands... Any changes will take up to 1 hour to update on discord.`,
+    );
     await upsertSlashCommands(globalCommands).catch(log.info);
   }
 
@@ -62,7 +66,8 @@ cache.eventHandlers.ready = async () => {
           if (cmd.slash?.advanced === false) {
             return {
               name: cmd.name,
-              description: cmd.description || "Error: No description available.",
+              description: cmd.description ||
+                "Error: No description available.",
               options: cmd.slash?.options,
             };
           }
@@ -73,8 +78,9 @@ cache.eventHandlers.ready = async () => {
 
           return {
             name: name === "SLASH_NAME" ? cmd.name : name,
-            description:
-              description === "SLASH_DESCRIPTION" ? cmd.description || "No description available." : description,
+            description: description === "SLASH_DESCRIPTION"
+              ? cmd.description || "No description available."
+              : description,
             options: cmd.slash?.options?.map((option) => {
               const optionName = option.name;
               const optionDescription = option.description;
@@ -87,13 +93,13 @@ cache.eventHandlers.ready = async () => {
             }),
           };
         }),
-        guild.id
+        guild.id,
       ).catch(log.warn);
       log.info(`Updated Guild ${guild.name} (${guild.id}) Slash Commands...`);
-    })
+    }),
   );
 
-  log.info('Slash Commands loaded successfully!');
+  log.info("Slash Commands loaded successfully!");
 
-  log.info('Bot started!');
-}
+  log.info("Bot started!");
+};

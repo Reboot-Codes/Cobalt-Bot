@@ -20,6 +20,9 @@ createCommand({
     sendEmbed(message.channelId, {
       title: 'Prefix Info',
       description: `**Current Prefix**: \`${parsePrefix(message.guildId)}\``,
+      footer: {
+        text: `As of: ${getTime()}`
+      }
     })
   },
 });

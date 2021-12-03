@@ -3,6 +3,8 @@ export interface Config {
   version: string;
   /** Bot accent color in hex */
   color: number;
+  /** URL for documentation and stuff */
+  url: string;
   /** Bot Token, do not share/post anywhere! */
   token: string;
   // /** Bot ID, is required for larger bots and Discordeno v13. */
