@@ -69,6 +69,7 @@ createCommand({
 
       sendEmbed(message.channelId, {
         title: "Help Menu",
+        description: `> Tip: [arg] means that it's not required, but <arg> means you need to pass it in.`,
         fields: [...commandArr],
       });
     }
