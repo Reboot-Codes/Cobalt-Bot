@@ -62,7 +62,7 @@ createCommand({
           commandArr.push({
             name: `\`${command.name}\``,
             value: `${command.aliases ? `Aliases: ${aliases}\n` : ``}${command.description}${command.usage ? `\n\nUsage: ${String(command.usage)}` : ``}`,
-            inline: true,
+            inline: false,
           });
         }
       });
