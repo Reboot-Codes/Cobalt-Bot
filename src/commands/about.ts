@@ -28,7 +28,6 @@ createCommand({
           "https://raw.githubusercontent.com/discordeno/guide/main/src/.vuepress/public/logo.png",
       },
       title: "Cobalt Bot Stats",
-      color: configs.color,
       fields: [
         {
           name: "About This Bot",

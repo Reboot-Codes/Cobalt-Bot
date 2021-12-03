@@ -1,6 +1,11 @@
 import { cache } from "../../cache.ts";
 import { PermissionLevels } from "../utils/types/mod.ts";
-import { createCommand, createSubcommand, sendEmbed, getTime } from "../utils/helpers.ts";
+import {
+  createCommand,
+  createSubcommand,
+  getTime,
+  sendEmbed,
+} from "../utils/helpers.ts";
 import { parsePrefix } from "../monitors/command-handler.ts";
 // import { db } from "../database/database.ts";
 
@@ -16,14 +21,15 @@ createCommand({
   ] as const,
   guildOnly: true,
   permissionLevels: [PermissionLevels.MEMBER],
+  description: "Get/Set the prefix for this server.",
   execute: (message) => {
     sendEmbed(message.channelId, {
-      title: 'Prefix Info',
+      title: "Prefix Info",
       description: `**Current Prefix**: \`${parsePrefix(message.guildId)}\``,
       footer: {
-        text: `As of: ${getTime()}`
-      }
-    })
+        text: `As of: ${getTime()}`,
+      },
+    });
   },
 });
 

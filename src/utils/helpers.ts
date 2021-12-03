@@ -83,8 +83,12 @@ export function createSubcommand<T extends readonly ArgumentDefinition[]>(
 }
 
 /** Use this function to send an embed with ease. */
-export function sendEmbed(channelId: bigint, embed: Embed, content?: string) {
-  return sendMessage(channelId, { embeds: [embed], content });
+export function sendEmbed(channelId: bigint, embed: Embed | Embed[], content?: string) {
+  if (embed as Embed[]) {
+    return sendMessage(channelId, { embeds: [...embed as unknown as Embed[]], content });
+  }
+
+  return sendMessage(channelId, { embeds: [embed as unknown as Embed], content });
 }
 
 /** Use this function to edit an embed with ease. */

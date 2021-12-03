@@ -1,12 +1,12 @@
 import {
   avatarURL,
-//  DiscordApplicationCommandOptionTypes,
-//  DiscordInteractionResponseTypes,
-//  sendInteractionResponse,
+  //  DiscordApplicationCommandOptionTypes,
+  //  DiscordInteractionResponseTypes,
+  //  sendInteractionResponse,
   snowflakeToBigint,
 } from "../../deps.ts";
 import { createCommand } from "../utils/helpers.ts";
-import { sendEmbed } from '../utils/helpers.ts';
+import { sendEmbed } from "../utils/helpers.ts";
 //import { logger } from "../utils/logger.ts";
 
 //const log = logger({ name: "Command: Avatar" });
@@ -14,6 +14,7 @@ import { sendEmbed } from '../utils/helpers.ts';
 createCommand({
   name: `avatar`,
   guildOnly: true,
+  description: "Get the avatar link for yourself or another member",
   /* slash: {
     enabled: true,
     guild: true,
@@ -85,22 +86,38 @@ createCommand({
       sendEmbed(message.channelId, {
         author: {
           name: `${mentioned.username}#${mentioned.discriminator}`,
-          iconUrl: avatarURL(BigInt(mentioned.id), Number(mentioned.discriminator), { avatar: mentioned.id, size: 2048, animated: false })
+          iconUrl: avatarURL(
+            BigInt(mentioned.id),
+            Number(mentioned.discriminator),
+            { avatar: mentioned.id, size: 2048, animated: false },
+          ),
         },
         image: {
-          url: avatarURL(BigInt(mentioned.id), Number(mentioned.discriminator), { avatar: mentioned.id, size: 2048, animated: true })
-        }
-      })
+          url: avatarURL(
+            BigInt(mentioned.id),
+            Number(mentioned.discriminator),
+            { avatar: mentioned.id, size: 2048, animated: true },
+          ),
+        },
+      });
     } else {
       sendEmbed(message.channelId, {
         author: {
           name: message.tag,
-          iconUrl: avatarURL(message.authorId, Number(message.tag.split("#")[1]), { avatar: message.authorId, size: 2048, animated: false }),
+          iconUrl: avatarURL(
+            message.authorId,
+            Number(message.tag.split("#")[1]),
+            { avatar: message.authorId, size: 2048, animated: false },
+          ),
         },
         image: {
-          url: avatarURL(message.authorId, Number(message.tag.split("#")[1]), { avatar: message.authorId, size: 2048, animated: true })
-        }
-      })
+          url: avatarURL(message.authorId, Number(message.tag.split("#")[1]), {
+            avatar: message.authorId,
+            size: 2048,
+            animated: true,
+          }),
+        },
+      });
     }
-  }
+  },
 });

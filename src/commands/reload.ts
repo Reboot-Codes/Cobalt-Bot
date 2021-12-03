@@ -1,5 +1,9 @@
 import { updateEventHandlers } from "../../deps.ts";
-import { createCommand, fileLoader, importDirectory } from "../utils/helpers.ts";
+import {
+  createCommand,
+  fileLoader,
+  importDirectory,
+} from "../utils/helpers.ts";
 import { PermissionLevels } from "../utils/types/commands.ts";
 import { clearTasks, registerTasks } from "../utils/task-helper.ts";
 import { cache } from "../../cache.ts";
@@ -18,11 +22,21 @@ createCommand({
   name: `reload`,
   permissionLevels: [PermissionLevels.BOT_OWNER],
   botChannelPermissions: ["SEND_MESSAGES"],
+  description:
+    "Reloads all arguments, commands, events, monitors, tasks, inhibitors, and permission levels.",
   arguments: [
     {
       name: "folder",
       type: "string",
-      literals: ["arguments", "commands", "events", "inhibitors", "monitors", "tasks", "languages"],
+      literals: [
+        "arguments",
+        "commands",
+        "events",
+        "inhibitors",
+        "monitors",
+        "tasks",
+        "languages",
+      ],
       required: false,
     },
   ] as const,
@@ -31,7 +45,9 @@ createCommand({
     if (args.folder) {
       const path = folderPaths.get(args.folder);
       if (!path) {
-        return message.reply("The folder you provided did not have a path available.");
+        return message.reply(
+          "The folder you provided did not have a path available.",
+        );
       }
 
       if (args.folder === "tasks") {
@@ -49,7 +65,11 @@ createCommand({
 
     // Reloads the main folders:
     clearTasks();
-    await Promise.all([...folderPaths.values()].map((path) => importDirectory(Deno.realPathSync(path))));
+    await Promise.all(
+      [...folderPaths.values()].map((path) =>
+        importDirectory(Deno.realPathSync(path))
+      ),
+    );
     await fileLoader();
     registerTasks();
     // Updates the events in the library
