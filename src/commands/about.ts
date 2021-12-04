@@ -2,9 +2,9 @@ import {
   createCommand,
   humanizeMilliseconds,
   sendEmbed,
-  getUserTagFromId,
+//getUserTagFromId,
 } from "../utils/helpers.ts";
-import { cache as discordCache, DISCORDENO_VERSION, botId, avatarURL } from "../../deps.ts";
+import { cache as discordCache, DISCORDENO_VERSION, /* botId, avatarURL */ } from "../../deps.ts";
 import { configs } from "../../config.ts";
 import { cache } from "../../cache.ts";
 
@@ -22,15 +22,15 @@ createCommand({
     });
 
     sendEmbed(message.channelId, {
-      author: {
+      /* author: {
         name: getUserTagFromId(botId),
         url: configs.url,
         iconUrl: avatarURL(botId, Number(getUserTagFromId(botId).split('#')[1]), {
-          avatar: botId,
+          avatar: getUserTagFromId(botId).split('#')[1],
           size: 2048,
           animated: true
         }),
-      },
+      }, */
       title: "Cobalt Bot Stats",
       fields: [
         {
