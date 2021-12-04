@@ -2,8 +2,9 @@ import {
   createCommand,
   humanizeMilliseconds,
   sendEmbed,
+  getUserTagFromId,
 } from "../utils/helpers.ts";
-import { cache as discordCache, DISCORDENO_VERSION } from "../../deps.ts";
+import { cache as discordCache, DISCORDENO_VERSION, botId, avatarURL } from "../../deps.ts";
 import { configs } from "../../config.ts";
 import { cache } from "../../cache.ts";
 
@@ -22,10 +23,13 @@ createCommand({
 
     sendEmbed(message.channelId, {
       author: {
-        name: "Cobalt#3379",
-        url: "https://cobalt.reboot.dev/",
-        iconUrl:
-          "https://raw.githubusercontent.com/discordeno/guide/main/src/.vuepress/public/logo.png",
+        name: getUserTagFromId(botId),
+        url: configs.url,
+        iconUrl: avatarURL(botId, Number(getUserTagFromId(botId).split('#')[1]), {
+          avatar: botId,
+          size: 2048,
+          animated: true
+        }),
       },
       title: "Cobalt Bot Stats",
       fields: [

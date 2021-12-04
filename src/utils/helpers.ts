@@ -1,5 +1,6 @@
 import {
   DiscordenoMessage,
+  DiscordenoMember,
   Embed,
   sendMessage,
   editMessage,
@@ -17,7 +18,8 @@ import {
   sendInteractionResponse,
   snowflakeToBigint,
   editWebhookMessage,
-  Emoji
+  Emoji,
+  getUser
 } from '../../deps.ts';
 import { logger } from './logger.ts';
 import { Milliseconds } from "./constants/time.ts";
@@ -25,7 +27,24 @@ import { ArgumentDefinition, Command } from './types/mod.ts';
 import { cache } from '../../cache.ts';
 import { needButton, needMessage, needReaction } from "./collectors.ts";
 
-const log = logger({ name: "Helpers"});
+const log = logger({ name: "Helpers" });
+
+export function getUserTagFromId(userId: bigint) {
+  let tag = "";
+  if (discordCache.members.get(userId)) {
+    const member = discordCache.members.get(userId) as unknown as DiscordenoMember;
+    tag = `${member.username}#${member.discriminator}`;
+  } else {
+    getUser(userId).then((user) => {
+      tag = `${user.username}#${user.discriminator}`
+    }, (err) => {
+      log.error("Failed to get user from Id, Reason:\n", err);
+      return;
+    })
+  }
+
+  return tag;
+}
 
 export function createCommand<T extends readonly ArgumentDefinition[]>(command: Command<T>) {
   (command.botChannelPermissions = [
@@ -84,7 +103,7 @@ export function createSubcommand<T extends readonly ArgumentDefinition[]>(
 
 /** Use this function to send an embed with ease. */
 export function sendEmbed(channelId: bigint, embed: Embed | Embed[], content?: string) {
-  if (embed as Embed[]) {
+  if (embed instanceof Array) {
     return sendMessage(channelId, { embeds: [...embed as unknown as Embed[]], content });
   }
 

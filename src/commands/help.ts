@@ -2,6 +2,9 @@
 import { createCommand, sendEmbed } from "../utils/helpers.ts";
 import { cache } from "../../cache.ts";
 import { Embed, EmbedField } from "../../deps.ts";
+import { logger } from "../utils/logger.ts";
+
+const log = logger({ name: "Command: Help" });
 
 createCommand({
   name: "help",
@@ -18,27 +21,61 @@ createCommand({
   execute: (message, args) => {
     if (args?.command) {
       const embed: Embed = {};
+      const embedFields: EmbedField[] = [];
       cache.commands.forEach((command) => {
         if (command.name === args.command) {
           embed.title = `\`${command.name}\``;
-          let aliases = '';
-          String(command.aliases).split(",").forEach((alias) => {
-            aliases += `\`${alias}\` `;
-          });
-          
-          embed.description = `${command.aliases ? `Aliases: ${aliases}\n` : ``}${command.description}${command.usage ? `\n\nUsage: ${String(command.usage)}` : ``}`;
+          embed.description = `${command.description}`;
+
+          if (command.aliases) {
+            let aliases = '';
+            String(command.aliases).split(",").forEach((alias) => {
+              aliases += `\`${alias}\` `;
+            });
+            
+            log.info(`${aliases}`)
+            embedFields.push({
+              name: "Aliases",
+              value: aliases
+            });
+          }
+
         } else if (command.aliases?.find((value) => {
           if (value === args.command) return true;
         })) {
           embed.title = `\`${command.name}\``;
-          let aliases = '';
-          String(command.aliases).split(",").forEach((alias) => {
-            aliases += `\`${alias}\` `;
-          });
+          embed.description = `${command.description}`;
 
-          embed.description = `${command.aliases ? `Aliases: ${aliases}\n` : ``}${command.description}${command.usage ? `\n\nUsage: ${String(command.usage)}` : ``}`;
+          if (command.aliases) {
+            let aliases = '';
+            String(command.aliases).split(",").forEach((alias) => {
+              aliases += `\`${alias}\` `;
+            });
+            
+            log.info(`${aliases}`)
+            embedFields.push({
+              name: "Aliases",
+              value: aliases
+            });
+          }
         }
-      })
+
+        if (command.usage) {
+          if (command.usage as string[]) {
+            embedFields.push({
+              name: 'Usage',
+              value: String(command.usage)
+            })
+          } else if (command.usage as string) {
+            embedFields.push({
+              name: 'Usage',
+              value: command.usage as string
+            })
+          }
+
+          if (embedFields.length >= 1) embed.fields = embedFields;
+        }
+      });
 
       if (embed.title !== undefined) {
         sendEmbed(message.channelId, embed);

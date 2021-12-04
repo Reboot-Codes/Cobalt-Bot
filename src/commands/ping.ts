@@ -24,10 +24,11 @@ createCommand({
       memberCount += guild.members.size;
     });
 
+    const pingArr = (Date.now() - message.timestamp).toString().split("-");
+    const ping = pingArr[pingArr.length - 1];
+
     message.send(
-      `Ping MS: ${
-        Date.now() - message.timestamp
-      }ms | Guilds: ${discordCache.guilds.size} | Users: ${memberCount}`,
+      `Ping MS: ${ping}ms | Guilds: ${discordCache.guilds.size} | Users: ${memberCount}`,
     );
   },
 });
